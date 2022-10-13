@@ -1,0 +1,29 @@
+on: push
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print a greeting
+        run: echo 'Hello World'
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag govidev1012000/strapi1:latest
+      - name: Push the Docker image
+        run: docker login -u govidev1012000 -p ${{ secrets.DOCKER_TOKEN }} && docker push govidev1012000/strapi1:latest
+      # - uses: actions/setup-node@v3
+      #   with:
+      #     node-version: 16  
+      # - run: npm i
+      # - run: npm run build
+      - name: deploy
+        env:
+          CF_DOCKER_PASSWORD: Password@33355
+        uses: citizen-of-planet-earth/cf-cli-action@v2
+        with:
+          cf_api: https://api.cf.us10-001.hana.ondemand.com
+          cf_username: govidev1012000@gmail.com
+          cf_password: Password@33355
+          cf_org: 94fe3e77trial
+          cf_space: dev
+          command: push
