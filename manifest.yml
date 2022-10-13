@@ -1,0 +1,6 @@
+
+applications:
+  - name: strapiawsdocker
+    docker:
+      image: govidev1012000/strapi1:latest
+      username: govidev1012000
